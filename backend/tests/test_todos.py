@@ -36,6 +36,7 @@ def test_create_todo():
 
     assert response.status_code == 200
     assert data["title"] == "Learn Docker"
+    assert data["status"] == "pending"
     assert data["completed"] is False
     assert "id" in data
 
@@ -49,6 +50,7 @@ def test_get_todos_after_creating_todo():
     assert response.status_code == 200
     assert len(data) == 1
     assert data[0]["title"] == "Learn FastAPI"
+    assert data[0]["status"] == "pending"
     assert data[0]["completed"] is False
 
 
@@ -89,7 +91,44 @@ def test_update_todo_completed_status():
 
     assert update_response.status_code == 200
     assert data["title"] == "Learn CI/CD"
+    assert data["status"] == "completed"
     assert data["completed"] is True
+
+
+def test_update_todo_status():
+    create_response = client.post(
+        "/todos",
+        json={"title": "Implement frontend"}
+    )
+
+    todo_id = create_response.json()["id"]
+
+    update_response = client.patch(
+        f"/todos/{todo_id}",
+        json={"status": "active"}
+    )
+
+    data = update_response.json()
+
+    assert update_response.status_code == 200
+    assert data["status"] == "active"
+    assert data["completed"] is False
+
+
+def test_reject_invalid_todo_status():
+    create_response = client.post(
+        "/todos",
+        json={"title": "Implement frontend"}
+    )
+
+    todo_id = create_response.json()["id"]
+
+    update_response = client.patch(
+        f"/todos/{todo_id}",
+        json={"status": "invalid"}
+    )
+
+    assert update_response.status_code == 422
 
 
 def test_delete_todo():

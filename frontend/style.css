@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+}
+
+main {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+input {
+  padding: 10px;
+  width: 260px;
+}
+
+button {
+  padding: 10px;
+  cursor: pointer;
+}
+
+li {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+li span {
+  flex: 1;
+}
+
+select {
+  padding: 9px;
+}
