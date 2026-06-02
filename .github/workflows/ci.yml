@@ -17,17 +17,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.14"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
 
       - name: Install backend dependencies
         working-directory: backend
-        run: |
-          pip install -r requirements.txt
+        run: uv sync --frozen
 
       - name: Run backend tests
         working-directory: backend
-        run: |
-          pytest
+        run: uv run pytest
 
   docker-build:
     runs-on: ubuntu-latest
